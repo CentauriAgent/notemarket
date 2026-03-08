@@ -33,10 +33,23 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build split APKs
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > notemarket.keystore
+
+      - name: Create key.properties
+        run: |
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=../../../notemarket.keystore
+          EOF
+
+      - name: Build split APKs (signed)
         run: flutter build apk --release --split-per-abi
 
-      - name: Build universal APK
+      - name: Build universal APK (signed)
         run: flutter build apk --release
 
       - name: Upload APKs as artifacts
