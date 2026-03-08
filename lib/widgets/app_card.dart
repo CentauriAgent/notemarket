@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:notemarket/providers/ratings_provider.dart';
 import 'package:notemarket/utils/extensions.dart';
 import 'package:notemarket/utils/url_utils.dart';
 import 'package:notemarket/services/package_manager/package_manager.dart';
@@ -137,6 +138,9 @@ class AppCard extends HookConsumerWidget {
                 softWrap: true,
               ),
             ],
+
+            // Aggregate star rating
+            _AppCardRating(app: currentApp),
 
             // Update button (for apps with updates or currently downloading/installing)
             if (showUpdateButton)
@@ -518,6 +522,63 @@ class _CompactInstallButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InstallButton(app: app, release: release, compact: true);
+  }
+}
+
+/// Inline aggregate rating shown on app cards.
+/// Only displays when >= 3 ratings exist.
+class _AppCardRating extends ConsumerWidget {
+  const _AppCardRating({required this.app});
+
+  final App app;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final commentsState = ref.watch(
+      query<Comment>(
+        tags: {
+          '#A': {app.id},
+        },
+        source: const LocalAndRemoteSource(
+          relays: 'social',
+          cachedFor: Duration(minutes: 10),
+        ),
+        subscriptionPrefix: 'card-ratings-${app.identifier}',
+      ),
+    );
+
+    final comments = commentsState.models;
+    final aggregate = computeAggregate(comments);
+
+    if (aggregate.totalCount < 3) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Row(
+        children: [
+          const Icon(Icons.star_rounded, size: 14, color: Color(0xFFFFD700)),
+          const SizedBox(width: 3),
+          Text(
+            aggregate.average.toStringAsFixed(1),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12,
+                ),
+          ),
+          const SizedBox(width: 3),
+          Text(
+            '(${aggregate.totalCount})',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.5),
+                  fontSize: 11,
+                ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
