@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
 
 class InstalledPackagesSnapshot {
   static const _fileName = 'installed_packages_snapshot.json';

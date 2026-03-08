@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/router.dart';
-import 'package:zapstore/services/updates_service.dart';
-import 'package:zapstore/widgets/common/badges.dart';
+import 'package:notemarket/router.dart';
+import 'package:notemarket/services/updates_service.dart';
+import 'package:notemarket/widgets/common/badges.dart';
 import '../widgets/common/profile_avatar.dart';
 import '../theme.dart';
 

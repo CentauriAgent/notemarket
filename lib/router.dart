@@ -4,14 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/screens/main_scaffold.dart';
-import 'package:zapstore/screens/app_detail_screen.dart';
-import 'package:zapstore/screens/app_stack_screen.dart';
-import 'package:zapstore/screens/user_screen.dart';
-import 'package:zapstore/screens/search_screen.dart';
-import 'package:zapstore/screens/updates_screen.dart';
-import 'package:zapstore/screens/profile_screen.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
+import 'package:notemarket/screens/main_scaffold.dart';
+import 'package:notemarket/screens/app_detail_screen.dart';
+import 'package:notemarket/screens/app_stack_screen.dart';
+import 'package:notemarket/screens/user_screen.dart';
+import 'package:notemarket/screens/search_screen.dart';
+import 'package:notemarket/screens/updates_screen.dart';
+import 'package:notemarket/screens/profile_screen.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
 
 /// Root paths for each navigation branch (used for back navigation handling)
 const kBranchRoots = ['/search', '/updates', '/profile'];

@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/services/updates_service.dart';
-import 'package:zapstore/theme.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/batch_progress_banner.dart';
-import 'package:zapstore/widgets/common/badges.dart';
-import 'package:zapstore/widgets/app_card.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/services/updates_service.dart';
+import 'package:notemarket/theme.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/batch_progress_banner.dart';
+import 'package:notemarket/widgets/common/badges.dart';
+import 'package:notemarket/widgets/app_card.dart';
 
 /// Screen for managing app updates
 class UpdatesScreen extends ConsumerWidget {
@@ -737,7 +737,7 @@ class _ManualUpdatesHelpIcon extends StatelessWidget {
         builder: (context) => AlertDialog(
           title: const Text('Manual Updates'),
           content: const Text(
-            'Apps not installed or updated by the latest Zapstore will show here '
+            'Apps not installed or updated by the latest Notemarket will show here '
             'and require manual confirmation of the Android system prompt once per app.',
           ),
           actions: [

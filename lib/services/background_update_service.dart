@@ -12,18 +12,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:purplebase/purplebase.dart';
 import 'package:workmanager/workmanager.dart';
-import 'package:zapstore/router.dart';
-import 'package:zapstore/services/package_manager/background_package_manager.dart';
-import 'package:zapstore/services/package_manager/dummy_package_manager.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/services/secure_storage_service.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/router.dart';
+import 'package:notemarket/services/package_manager/background_package_manager.dart';
+import 'package:notemarket/services/package_manager/dummy_package_manager.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/services/secure_storage_service.dart';
+import 'package:notemarket/utils/extensions.dart';
 
 /// Unique task name for background update checking
-const kBackgroundUpdateTaskName = 'dev.zapstore.backgroundUpdateCheck';
+const kBackgroundUpdateTaskName = 'dev.notemarket.backgroundUpdateCheck';
 
 /// Unique task name for weekly cleanup
-const kWeeklyCleanupTaskName = 'dev.zapstore.weeklyCleanup';
+const kWeeklyCleanupTaskName = 'dev.notemarket.weeklyCleanup';
 
 /// Unique task identifier
 const kBackgroundUpdateTaskId = 'backgroundUpdateCheck';
@@ -32,7 +32,7 @@ const kBackgroundUpdateTaskId = 'backgroundUpdateCheck';
 const kWeeklyCleanupTaskId = 'weeklyCleanup';
 
 /// Notification channel for update notifications
-const kUpdateNotificationChannelId = 'zapstore_updates';
+const kUpdateNotificationChannelId = 'notemarket_updates';
 const kUpdateNotificationChannelName = 'App Updates';
 const kUpdateNotificationChannelDescription =
     'Notifications for available app updates';
@@ -164,7 +164,7 @@ Future<bool> _checkForUpdatesInBackground(Set<String>? appCatalogRelays) async {
     try {
       // Initialize Purplebase with same DB path as main app
       final dir = await getApplicationSupportDirectory();
-      final dbPath = path.join(dir.path, 'zapstore.db');
+      final dbPath = path.join(dir.path, 'notemarket.db');
 
       await container.read(
         initializationProvider(

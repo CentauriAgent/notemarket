@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
 import 'package:purplebase/purplebase.dart';
-import 'package:zapstore/services/updates_service.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/services/updates_service.dart';
+import 'package:notemarket/utils/extensions.dart';
 import 'app_card.dart';
 
 class LatestReleasesContainer extends HookConsumerWidget {
@@ -43,12 +43,12 @@ class LatestReleasesContainer extends HookConsumerWidget {
     final state = ref.watch(latestReleasesProvider);
     final storage = state.storage;
 
-    // Get pinned apps with zapstore updates to inject at top
+    // Get pinned apps with notemarket updates to inject at top
     final categorized = ref.watch(categorizedUpdatesProvider);
     final pinnedAppsWithUpdates = [
       ...categorized.automaticUpdates,
       ...categorized.manualUpdates,
-    ].where((a) => a.isZapstoreApp).toList();
+    ].where((a) => a.isNotemarketApp).toList();
     final pinnedIds = pinnedAppsWithUpdates.map((a) => a.id).toSet();
 
     // Combine live storage models (newest) with paged older apps, excluding pinned

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/utils/extensions.dart';
 
 /// Download text container widget showing "Direct download from (icon) (path)"
 /// Mirrors the style and layout of `author_container.dart`

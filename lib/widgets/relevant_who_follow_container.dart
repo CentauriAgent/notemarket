@@ -4,9 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/common/profile_avatar.dart';
-import 'package:zapstore/widgets/profiles_rich_text.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/common/profile_avatar.dart';
+import 'package:notemarket/widgets/profiles_rich_text.dart';
 
 class RelevantWhoFollowContainer extends HookConsumerWidget {
   const RelevantWhoFollowContainer({

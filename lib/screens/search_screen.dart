@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,17 +28,31 @@ class SearchScreen extends HookConsumerWidget {
     // Get platform from package manager
     final platform = ref.read(packageManagerProvider.notifier).platform;
 
-    // Function to perform search (only with 3+ characters)
+    // Debounce timer for search-as-you-type
+    final debounceTimer = useRef<Timer?>(null);
+
+    // Function to perform search (only with 2+ characters for better UX)
     final performSearch = useCallback((String query) {
       final trimmed = query.trim();
-      // Keep keyboard open if less than 3 characters
-      if (trimmed.length < 3) {
-        // Re-request focus to keep keyboard open
-        searchFocusNode.requestFocus();
+      if (trimmed.length < 2) {
+        searchQuery.value = '';
         return;
       }
       searchQuery.value = trimmed;
-    }, [searchFocusNode]);
+    }, []);
+
+    // Search-as-you-type with 400ms debounce
+    final onSearchChanged = useCallback((String query) {
+      debounceTimer.value?.cancel();
+      debounceTimer.value = Timer(const Duration(milliseconds: 400), () {
+        performSearch(query);
+      });
+    }, [performSearch]);
+
+    // Clean up debounce timer
+    useEffect(() {
+      return () => debounceTimer.value?.cancel();
+    }, []);
 
     final trimmedQuery = searchQuery.value.trim();
 
@@ -58,7 +73,7 @@ class SearchScreen extends HookConsumerWidget {
                 return SearchBar(
                   controller: searchController,
                   focusNode: searchFocusNode,
-                  hintText: 'Search apps',
+                  hintText: 'Search apps or publishers...',
                   leading: Icon(
                     Icons.search_rounded,
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -80,6 +95,7 @@ class SearchScreen extends HookConsumerWidget {
                         tooltip: 'Clear search',
                       ),
                   ],
+                  onChanged: onSearchChanged,
                   onSubmitted: performSearch,
                   elevation: WidgetStateProperty.all(0),
                   backgroundColor: WidgetStateProperty.all(

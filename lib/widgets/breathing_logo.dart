@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 /// An animated breathing logo widget used for loading states
-/// Smoothly scales the Zapstore logo in a "breathe in, breathe out" motion
+/// Smoothly scales the Notemarket logo in a "breathe in, breathe out" motion
 class BreathingLogo extends HookWidget {
   final double size;
   const BreathingLogo({super.key, this.size = 200});

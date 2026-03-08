@@ -4,14 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/app_card.dart';
-import 'package:zapstore/widgets/author_container.dart';
-import 'package:zapstore/widgets/comments_section.dart';
-import 'package:zapstore/widgets/common/badges.dart';
-import 'package:zapstore/widgets/common/time_utils.dart';
-import 'package:zapstore/theme.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/app_card.dart';
+import 'package:notemarket/widgets/author_container.dart';
+import 'package:notemarket/widgets/comments_section.dart';
+import 'package:notemarket/widgets/common/badges.dart';
+import 'package:notemarket/widgets/common/time_utils.dart';
+import 'package:notemarket/theme.dart';
 
 class AppStackScreen extends HookConsumerWidget {
   const AppStackScreen({super.key, required this.stackId, this.authorPubkey});

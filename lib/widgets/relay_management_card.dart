@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purplebase/purplebase.dart';
-import 'package:zapstore/services/app_restart_service.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/services/secure_storage_service.dart';
+import 'package:notemarket/services/app_restart_service.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/services/secure_storage_service.dart';
 
 /// App Catalog Relay Management Card - manages app catalog relays.
 /// These are relays for discovering apps, NOT social relays like Damus/Primal.

@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:models/models.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/download_text_container.dart';
-import 'package:zapstore/theme.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/download_text_container.dart';
+import 'package:notemarket/theme.dart';
 
 class AppInfoTable extends HookConsumerWidget {
   const AppInfoTable({super.key, required this.app, this.fileMetadata});

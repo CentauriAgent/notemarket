@@ -9,20 +9,22 @@ import 'package:models/models.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zapstore/services/bookmarks_service.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/utils/debug_utils.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/widgets/app_detail_widgets.dart';
-import 'package:zapstore/widgets/app_header.dart';
-import 'package:zapstore/widgets/app_info_table.dart';
-import 'package:zapstore/widgets/author_container.dart';
-import 'package:zapstore/widgets/comments_section.dart';
-import 'package:zapstore/widgets/download_text_container.dart';
-import 'package:zapstore/widgets/expandable_markdown.dart';
-import 'package:zapstore/widgets/install_button.dart';
-import 'package:zapstore/widgets/screenshots_gallery.dart';
+import 'package:notemarket/services/bookmarks_service.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/utils/debug_utils.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/widgets/app_detail_widgets.dart';
+import 'package:notemarket/widgets/app_header.dart';
+import 'package:notemarket/widgets/app_info_table.dart';
+import 'package:notemarket/widgets/author_container.dart';
+import 'package:notemarket/widgets/app_reviews_section.dart';
+import 'package:notemarket/widgets/comments_section.dart';
+import 'package:notemarket/widgets/publisher_profile_section.dart';
+import 'package:notemarket/widgets/download_text_container.dart';
+import 'package:notemarket/widgets/expandable_markdown.dart';
+import 'package:notemarket/widgets/install_button.dart';
+import 'package:notemarket/widgets/screenshots_gallery.dart';
 
 class AppDetailScreen extends HookConsumerWidget {
   const AppDetailScreen({super.key, required this.appId, this.authorPubkey});
@@ -412,6 +414,16 @@ class _AppDetailContent extends HookConsumerWidget {
                     child: AppInfoTable(app: app, fileMetadata: latestMetadata),
                   ),
 
+                  // Publisher profile section
+                  if (author != null)
+                    PublisherProfileSection(
+                      pubkey: app.pubkey,
+                      profile: author,
+                    ),
+
+                  // App reviews section
+                  AppReviewsSection(app: app),
+
                   CommentsSection(app: app, fileMetadata: latestMetadata),
 
                   // Debug section
@@ -636,7 +648,7 @@ class _AppDetailContent extends HookConsumerWidget {
         relays: [],
       ),
     );
-    return 'https://zapstore.dev/apps/$naddr';
+    return 'https://notemarket.dev/apps/$naddr';
   }
 
   void _shareApp(BuildContext context, App app) {

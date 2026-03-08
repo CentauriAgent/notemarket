@@ -10,18 +10,18 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:purplebase/purplebase.dart';
 import 'package:amber_signer/amber_signer.dart';
-import 'package:zapstore/services/app_restart_service.dart';
-import 'package:zapstore/services/background_update_service.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/services/secure_storage_service.dart';
-import 'package:zapstore/router.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/theme.dart';
-import 'package:zapstore/services/package_manager/android_package_manager.dart';
-import 'package:zapstore/services/package_manager/dummy_package_manager.dart';
-import 'package:zapstore/services/deep_link_service.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/breathing_logo.dart';
+import 'package:notemarket/services/app_restart_service.dart';
+import 'package:notemarket/services/background_update_service.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/services/secure_storage_service.dart';
+import 'package:notemarket/router.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/theme.dart';
+import 'package:notemarket/services/package_manager/android_package_manager.dart';
+import 'package:notemarket/services/package_manager/dummy_package_manager.dart';
+import 'package:notemarket/services/deep_link_service.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/breathing_logo.dart';
 
 /// Global provider container for error reporting (accessible outside widget tree)
 late final ProviderContainer _providerContainer;
@@ -43,7 +43,7 @@ void main() {
     runApp(
       UncontrolledProviderScope(
         container: _providerContainer,
-        child: const ZapstoreApp(),
+        child: const NotemarketApp(),
       ),
     );
   }, _errorHandler);
@@ -66,14 +66,14 @@ void _errorHandler(Object exception, StackTrace? stack) {
   // );
 }
 
-class ZapstoreApp extends HookConsumerWidget {
-  const ZapstoreApp({super.key});
+class NotemarketApp extends HookConsumerWidget {
+  const NotemarketApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier =
         ref.read(storageNotifierProvider.notifier) as PurplebaseStorageNotifier;
-    final title = 'Zapstore';
+    final title = 'Notemarket';
 
     // Watch initialization state for error overlay display
     final initState = ref.watch(appInitializationProvider);
@@ -200,8 +200,8 @@ class ZapstoreApp extends HookConsumerWidget {
   }
 }
 
-class ZapstoreHome extends StatelessWidget {
-  const ZapstoreHome({super.key});
+class NotemarketHome extends StatelessWidget {
+  const NotemarketHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +212,7 @@ class ZapstoreHome extends StatelessWidget {
           children: [
             const BreathingLogo(size: 120),
             const SizedBox(height: 24),
-            Text('Zapstore', style: context.textTheme.headlineMedium),
+            Text('Notemarket', style: context.textTheme.headlineMedium),
             const SizedBox(height: 8),
             Text(
               'Permissionless app store for Nostr',
@@ -230,7 +230,7 @@ const _kDefaultAppCatalogRelay = 'wss://relay.zapstore.dev';
 
 final appInitializationProvider = FutureProvider<void>((ref) async {
   final dir = await getApplicationSupportDirectory();
-  final dbPath = path.join(dir.path, 'zapstore.db');
+  final dbPath = path.join(dir.path, 'notemarket.db');
 
   // Clear storage if requested from a clear all operation
   await maybeClearStorage(dbPath);

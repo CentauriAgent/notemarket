@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:zapstore/constants/app_constants.dart';
-import 'package:zapstore/main.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/utils/debug_utils.dart';
+import 'package:notemarket/constants/app_constants.dart';
+import 'package:notemarket/main.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/utils/debug_utils.dart';
 
 /// Reusable sign-in prompt widget for dialogs and bottom sheets.
 /// Displays a styled tappable message prompting the user to sign in.

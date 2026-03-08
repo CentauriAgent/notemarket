@@ -6,9 +6,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/services/package_manager/device_capabilities.dart';
-import 'package:zapstore/services/package_manager/dummy_package_manager.dart';
-import 'package:zapstore/services/package_manager/install_operation.dart';
+import 'package:notemarket/services/package_manager/device_capabilities.dart';
+import 'package:notemarket/services/package_manager/dummy_package_manager.dart';
+import 'package:notemarket/services/package_manager/install_operation.dart';
 export 'device_capabilities.dart';
 export 'install_operation.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/constants/app_constants.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
+import 'package:notemarket/constants/app_constants.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
 
-export 'package:zapstore/constants/app_constants.dart';
+export 'package:notemarket/constants/app_constants.dart';
 
 extension WidgetExt on WidgetRef {
   StorageNotifier get storage => read(storageNotifierProvider.notifier);
@@ -16,14 +16,14 @@ extension ContextExt on BuildContext {
 }
 
 extension AppExt on App {
-  /// Whether this app is one of Zapstore's own apps
-  bool get isZapstoreApp => identifier == kZapstoreAppIdentifier;
+  /// Whether this app is one of Notemarket's own apps
+  bool get isNotemarketApp => identifier == kNotemarketAppIdentifier;
 
-  /// Whether this app is signed by Zapstore pubkey
-  bool get isSignedByZapstore => pubkey == kZapstorePubkey;
+  /// Whether this app is signed by Notemarket pubkey
+  bool get isSignedByNotemarket => pubkey == kNotemarketPubkey;
 
-  /// Whether this app is "relay signed" - indexed by Zapstore but not a Zapstore app itself
-  bool get isRelaySigned => isSignedByZapstore && !isZapstoreApp;
+  /// Whether this app is "relay signed" - indexed by Notemarket but not a Notemarket app itself
+  bool get isRelaySigned => isSignedByNotemarket && !isNotemarketApp;
 
   /// Returns PackageInfo if installed, otherwise null
   PackageInfo? get installedPackage =>

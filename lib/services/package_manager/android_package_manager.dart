@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/services/package_manager/installed_packages_snapshot.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
+import 'package:notemarket/services/package_manager/installed_packages_snapshot.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
 
 /// Install status values from native side.
 ///
@@ -632,7 +632,7 @@ final class AndroidPackageManager extends PackageManager {
         'CRITICAL: "Install unknown apps" permission is required.\n\n'
         'Please:\n'
         '1. Go to Android Settings\n'
-        '2. Apps > ZapStore > Install unknown apps\n'
+        '2. Apps > Notemarket > Install unknown apps\n'
         '3. Enable "Allow from this source"\n'
         '4. Try installation again',
       );

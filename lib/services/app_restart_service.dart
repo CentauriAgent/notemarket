@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
-const _channel = MethodChannel('dev.zapstore/app_restart');
+const _channel = MethodChannel('dev.notemarket/app_restart');
 const _markerFileName = '.clear_on_restart';
 
 /// Checks if storage should be cleared on this launch, and clears the marker.

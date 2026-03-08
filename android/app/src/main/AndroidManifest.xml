@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:label="Zapstore"
+        android:label="Notemarket"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:enableOnBackInvokedCallback="true"
@@ -45,14 +45,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
-            <!-- App Links for https://zapstore.dev/apps/... -->
+            <!-- App Links for https://notemarket.app/apps/... -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="zapstore.dev"
+                    android:host="notemarket.app"
                     android:pathPrefix="/apps" />
             </intent-filter>
 
@@ -72,7 +72,7 @@
             android:value="2" />
 
         <receiver
-            android:name="dev.zapstore.app.plugins.InstallResultReceiver"
+            android:name="com.notemarket.app.plugins.InstallResultReceiver"
             android:exported="false" />
     </application>
     <!-- Required to query activities that can process text, see:

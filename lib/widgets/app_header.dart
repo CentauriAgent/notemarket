@@ -3,8 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/widgets/version_pill_widget.dart';
-import 'package:zapstore/utils/url_utils.dart';
+import 'package:notemarket/widgets/version_pill_widget.dart';
+import 'package:notemarket/utils/url_utils.dart';
 
 class AppHeader extends StatelessWidget {
   const AppHeader({super.key, required this.app});

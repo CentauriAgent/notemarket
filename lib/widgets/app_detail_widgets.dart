@@ -8,15 +8,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zapstore/services/bookmarks_service.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/theme.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/bookmark_widgets.dart';
-import 'package:zapstore/widgets/common/base_dialog.dart';
-import 'package:zapstore/widgets/expandable_markdown.dart';
-import 'package:zapstore/widgets/zap_widgets.dart';
+import 'package:notemarket/services/bookmarks_service.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/theme.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/bookmark_widgets.dart';
+import 'package:notemarket/widgets/common/base_dialog.dart';
+import 'package:notemarket/widgets/expandable_markdown.dart';
+import 'package:notemarket/widgets/zap_widgets.dart';
 
 /// Format a date as time ago (e.g., "2 days ago")
 String formatDate(DateTime date) {

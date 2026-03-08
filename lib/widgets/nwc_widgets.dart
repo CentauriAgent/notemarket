@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/services/secure_storage_service.dart';
-import 'package:zapstore/theme.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/services/secure_storage_service.dart';
+import 'package:notemarket/theme.dart';
+import 'package:notemarket/utils/extensions.dart';
 
 /// Card showing NWC connection status and management
 class NWCConnectionCard extends HookConsumerWidget {

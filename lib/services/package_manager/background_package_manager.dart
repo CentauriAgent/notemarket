@@ -1,12 +1,12 @@
 import 'package:models/models.dart';
-import 'package:zapstore/services/package_manager/installed_packages_snapshot.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
+import 'package:notemarket/services/package_manager/installed_packages_snapshot.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
 
 /// Background-safe PackageManager that avoids EventChannel usage.
 final class BackgroundPackageManager extends PackageManager {
   BackgroundPackageManager(super.ref);
 
-  // Zapstore currently targets arm64 APKs for background checks.
+  // Notemarket currently targets arm64 APKs for background checks.
   @override
   String get platform => 'android-arm64-v8a';
 

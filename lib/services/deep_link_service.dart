@@ -4,7 +4,7 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:zapstore/router.dart';
+import 'package:notemarket/router.dart';
 
 final deepLinkServiceProvider = Provider<DeepLinkService>((ref) {
   return DeepLinkService(ref);
@@ -36,9 +36,9 @@ class DeepLinkService {
   void _handleUri(Uri? uri) {
     if (uri == null) return;
 
-    // https://zapstore.dev/apps/<id>
+    // https://notemarket.dev/apps/<id>
     if (uri.scheme == 'https' &&
-        uri.host == 'zapstore.dev' &&
+        uri.host == 'notemarket.dev' &&
         uri.pathSegments.length == 2 &&
         uri.pathSegments[0] == 'apps') {
       final id = uri.pathSegments[1];

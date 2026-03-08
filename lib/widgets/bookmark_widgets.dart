@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/auth_widgets.dart';
-import 'package:zapstore/widgets/common/base_dialog.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/auth_widgets.dart';
+import 'package:notemarket/widgets/common/base_dialog.dart';
 
 /// Dialog for saving an app privately (encrypted)
 class SaveAppDialog extends HookConsumerWidget {

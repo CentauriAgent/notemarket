@@ -10,20 +10,20 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/services/app_restart_service.dart';
+import 'package:notemarket/services/app_restart_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:purplebase/purplebase.dart';
-import 'package:zapstore/main.dart';
-import 'package:zapstore/services/bookmarks_service.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/common/profile_identity_row.dart';
-import 'package:zapstore/widgets/app_card.dart';
-import 'package:zapstore/theme.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/widgets/common/note_parser.dart';
-import 'package:zapstore/widgets/nwc_widgets.dart';
-import 'package:zapstore/widgets/relay_management_card.dart';
+import 'package:notemarket/main.dart';
+import 'package:notemarket/services/bookmarks_service.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/common/profile_identity_row.dart';
+import 'package:notemarket/widgets/app_card.dart';
+import 'package:notemarket/theme.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/widgets/common/note_parser.dart';
+import 'package:notemarket/widgets/nwc_widgets.dart';
+import 'package:notemarket/widgets/relay_management_card.dart';
 
 /// Profile screen for authentication and app settings
 class ProfileScreen extends ConsumerWidget {
@@ -1602,7 +1602,7 @@ class _AboutSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pmState = ref.watch(packageManagerProvider);
-    final zsPackage = pmState.installed[kZapstoreAppIdentifier];
+    final zsPackage = pmState.installed[kNotemarketAppIdentifier];
 
     if (zsPackage == null) {
       final isLoading = pmState.installed.isEmpty;
@@ -1628,7 +1628,7 @@ class _AboutSection extends ConsumerWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Loading Zapstore build information…',
+                        'Loading Notemarket build information…',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
@@ -1636,7 +1636,7 @@ class _AboutSection extends ConsumerWidget {
                 ),
               ] else ...[
                 Text(
-                  'Zapstore version details are unavailable right now.',
+                  'Notemarket version details are unavailable right now.',
                   style: Theme.of(
                     context,
                   ).textTheme.bodyMedium?.copyWith(color: Colors.orange[700]),
@@ -1690,7 +1690,7 @@ class _AboutSection extends ConsumerWidget {
               trailing: const Icon(Icons.open_in_new),
               contentPadding: EdgeInsets.zero,
               onTap: () {
-                launchUrl(Uri.parse('https://github.com/zapstore/zapstore'));
+                launchUrl(Uri.parse('https://github.com/notemarket/notemarket'));
               },
             ),
           ],

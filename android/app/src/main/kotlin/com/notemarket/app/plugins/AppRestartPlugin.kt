@@ -1,4 +1,4 @@
-package dev.zapstore.app.plugins
+package com.notemarket.app.plugins
 
 import android.content.Context
 import android.content.Intent
@@ -13,7 +13,7 @@ class AppRestartPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         context = binding.applicationContext
-        channel = MethodChannel(binding.binaryMessenger, "dev.zapstore/app_restart")
+        channel = MethodChannel(binding.binaryMessenger, "com.notemarket/app_restart")
         channel.setMethodCallHandler(this)
     }
 

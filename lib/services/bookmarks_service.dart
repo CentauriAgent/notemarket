@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/utils/extensions.dart';
 
 /// Provider that watches the user's saved apps pack and provides decrypted saved apps state
 /// Fetches from remote once on boot, then uses local storage only

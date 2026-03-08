@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:zapstore/router.dart';
-import 'package:zapstore/theme.dart';
+import 'package:notemarket/router.dart';
+import 'package:notemarket/theme.dart';
 
 extension ContextX on BuildContext {
   ThemeData get theme => Theme.of(this);

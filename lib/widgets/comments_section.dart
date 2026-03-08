@@ -4,13 +4,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/theme.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/auth_widgets.dart';
-import 'package:zapstore/widgets/common/profile_avatar.dart';
-import 'package:zapstore/widgets/common/profile_name_widget.dart';
-import 'package:zapstore/widgets/pill_widget.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/theme.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/auth_widgets.dart';
+import 'package:notemarket/widgets/common/profile_avatar.dart';
+import 'package:notemarket/widgets/common/profile_name_widget.dart';
+import 'package:notemarket/widgets/pill_widget.dart';
 
 /// Comments section for App detail screen
 class CommentsSection extends HookConsumerWidget {

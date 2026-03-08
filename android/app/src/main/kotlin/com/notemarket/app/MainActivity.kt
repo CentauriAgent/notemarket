@@ -1,7 +1,7 @@
-package dev.zapstore.app
+package com.notemarket.app
 
-import dev.zapstore.app.plugins.AndroidPackageManagerPlugin
-import dev.zapstore.app.plugins.AppRestartPlugin
+import com.notemarket.app.plugins.AndroidPackageManagerPlugin
+import com.notemarket.app.plugins.AppRestartPlugin
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 

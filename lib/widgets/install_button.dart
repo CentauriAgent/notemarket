@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/services/trusted_signers_service.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/author_container.dart';
-import 'package:zapstore/widgets/common/base_dialog.dart';
-import 'package:zapstore/widgets/install_alert_dialog.dart';
-import 'package:zapstore/theme.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/services/trusted_signers_service.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/author_container.dart';
+import 'package:notemarket/widgets/common/base_dialog.dart';
+import 'package:notemarket/widgets/install_alert_dialog.dart';
+import 'package:notemarket/theme.dart';
 
 class InstallButton extends ConsumerWidget {
   const InstallButton({

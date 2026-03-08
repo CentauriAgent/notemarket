@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/utils/extensions.dart';
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:zapstore/utils/url_utils.dart';
+import 'package:notemarket/utils/url_utils.dart';
 
 /// Enum for different media types
 enum MediaType { image, video, audio, none }

@@ -6,13 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/router.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/services/secure_storage_service.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/auth_widgets.dart';
-import 'package:zapstore/widgets/common/base_dialog.dart';
-import 'package:zapstore/widgets/common/profile_avatar.dart';
+import 'package:notemarket/router.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/services/secure_storage_service.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/auth_widgets.dart';
+import 'package:notemarket/widgets/common/base_dialog.dart';
+import 'package:notemarket/widgets/common/profile_avatar.dart';
 
 /// Zap button for apps - shows a button to zap the app or relay
 class ZapButton extends HookConsumerWidget {

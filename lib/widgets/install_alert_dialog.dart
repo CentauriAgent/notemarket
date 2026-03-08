@@ -3,12 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/author_container.dart';
-import 'package:zapstore/widgets/common/base_dialog.dart';
-import 'package:zapstore/widgets/download_text_container.dart';
-import 'package:zapstore/widgets/relevant_who_follow_container.dart';
-import 'package:zapstore/widgets/sign_in_button.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/author_container.dart';
+import 'package:notemarket/widgets/common/base_dialog.dart';
+import 'package:notemarket/widgets/download_text_container.dart';
+import 'package:notemarket/widgets/relevant_who_follow_container.dart';
+import 'package:notemarket/widgets/sign_in_button.dart';
 
 class InstallAlertDialog extends HookConsumerWidget {
   const InstallAlertDialog({super.key, required this.app});

@@ -6,7 +6,7 @@ import '../utils/extensions.dart';
 
 /// Author container widget showing "Published by [profile]" text with avatar
 /// Based on the old AuthorContainer design pattern
-/// Can be hidden for Zapstore-published apps (except main Zapstore app)
+/// Can be hidden for Notemarket-published apps (except main Notemarket app)
 /// Supports nullable profile with pubkey fallback for cases where profile isn't loaded
 class AuthorContainer extends StatelessWidget {
   final Profile? profile;
@@ -15,7 +15,7 @@ class AuthorContainer extends StatelessWidget {
   final String? afterText;
   final bool oneLine;
   final double? size;
-  final App? app; // Optional app to check for Zapstore hiding logic
+  final App? app; // Optional app to check for Notemarket hiding logic
   final VoidCallback? onTap; // Optional tap handler
   final bool isLoading; // Whether profile is still loading
 
@@ -38,7 +38,7 @@ class AuthorContainer extends StatelessWidget {
     // ignore: no_leading_underscores_for_local_identifiers
     final _size = size ?? context.textTheme.bodyMedium!.fontSize!;
 
-    // Hide "Published by Zapstore" for Zapstore-published apps (except main Zapstore app)
+    // Hide "Published by Notemarket" for Notemarket-published apps (except main Notemarket app)
     if (app != null && app!.isRelaySigned) {
       return const SizedBox.shrink();
     }

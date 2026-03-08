@@ -1,4 +1,4 @@
-package dev.zapstore.app.plugins
+package com.notemarket.app.plugins
 
 import android.content.BroadcastReceiver
 import android.content.Context

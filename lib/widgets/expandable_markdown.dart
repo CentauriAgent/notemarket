@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/utils/extensions.dart';
 
 class ExpandableMarkdown extends HookWidget {
   const ExpandableMarkdown({

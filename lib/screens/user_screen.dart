@@ -5,9 +5,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/services/notification_service.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/services/notification_service.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/utils/extensions.dart';
 import '../theme.dart';
 import '../widgets/common/note_parser.dart';
 import '../widgets/common/profile_identity_row.dart';
@@ -55,9 +55,9 @@ class UserScreen extends HookConsumerWidget {
       ),
     );
 
-    // For Zapstore pubkey, only show Zapstore's own apps (not relay-signed ones)
-    final apps = pubkey == kZapstorePubkey
-        ? userAppsState.models.where((a) => a.isZapstoreApp).toList()
+    // For Notemarket pubkey, only show Notemarket's own apps (not relay-signed ones)
+    final apps = pubkey == kNotemarketPubkey
+        ? userAppsState.models.where((a) => a.isNotemarketApp).toList()
         : userAppsState.models;
 
     // Query user's app stacks

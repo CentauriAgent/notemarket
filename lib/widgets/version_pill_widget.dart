@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/app_detail_widgets.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/app_detail_widgets.dart';
 import '../services/package_manager/package_manager.dart';
 import '../theme.dart';
 

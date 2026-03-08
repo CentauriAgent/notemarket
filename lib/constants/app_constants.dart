@@ -1,8 +1,8 @@
-/// Application identifier for Zapstore itself
-const kZapstoreAppIdentifier = 'dev.zapstore.app';
+/// Application identifier for Notemarket itself
+const kNotemarketAppIdentifier = 'com.notemarket.app';
 
-/// Zapstore's public key for relay-signed apps
-const kZapstorePubkey =
+/// Notemarket's public key for relay-signed apps
+const kNotemarketPubkey =
     '78ce6faa72264387284e647ba6938995735ec8c7d5c5a65737e55130f026307d';
 
 /// Franzap's public key for curation sets
@@ -10,7 +10,7 @@ const kFranzapPubkey =
     '726a1e261cc6474674e8285e3951b3bb139be9a773d1acf49dc868db861a1c11';
 
 /// Identifier for storing user saved apps
-const kAppBookmarksIdentifier = 'zapstore-bookmarks';
+const kAppBookmarksIdentifier = 'notemarket-bookmarks';
 
 /// Event filter for app stacks - excludes saved apps and stacks with zero App references
 bool appStackEventFilter(Map<String, dynamic> event) {

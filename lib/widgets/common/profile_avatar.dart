@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/utils/url_utils.dart';
+import 'package:notemarket/utils/url_utils.dart';
 import '../../theme.dart';
 
 class ProfileAvatar extends StatelessWidget {

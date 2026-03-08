@@ -6,10 +6,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/utils/url_utils.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/widgets/zap_widgets.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/utils/url_utils.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/widgets/zap_widgets.dart';
 
 import 'common/profile_avatar.dart';
 import 'common/profile_name_widget.dart';

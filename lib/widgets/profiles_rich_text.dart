@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/utils/extensions.dart';
-import 'package:zapstore/widgets/common/profile_avatar.dart';
+import 'package:notemarket/utils/extensions.dart';
+import 'package:notemarket/widgets/common/profile_avatar.dart';
 
 /// Generic widget for displaying a list of user profiles in a readable sentence format
 /// Handles multiple users with proper grammar ("John", "John and Jane")

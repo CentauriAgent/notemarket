@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/utils/extensions.dart';
 
 /// Centralized widget for displaying profile names with proper loading states.
 ///
@@ -106,11 +106,31 @@ class ProfileNameWidget extends StatelessWidget {
     }
 
     // Data state: show profile name or abbreviated npub if not found
-    return Text(
-      profile?.nameOrNpub.abbreviateNpub() ?? _abbreviatedNpub,
-      style: effectiveStyle,
-      maxLines: maxLines,
-      overflow: overflow,
+    final hasNip05 = profile?.nip05?.trim().isNotEmpty ?? false;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(
+          child: Text(
+            profile?.nameOrNpub.abbreviateNpub() ?? _abbreviatedNpub,
+            style: effectiveStyle,
+            maxLines: maxLines,
+            overflow: overflow,
+          ),
+        ),
+        if (hasNip05) ...[
+          const SizedBox(width: 4),
+          Tooltip(
+            message: profile!.nip05!,
+            child: Icon(
+              Icons.verified_rounded,
+              size: (effectiveStyle?.fontSize ?? 14) * 1.1,
+              color: const Color(0xFF8B5CF6),
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

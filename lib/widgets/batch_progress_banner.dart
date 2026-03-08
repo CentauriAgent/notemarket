@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
-import 'package:zapstore/services/package_manager/package_manager.dart';
-import 'package:zapstore/theme.dart';
-import 'package:zapstore/utils/extensions.dart';
+import 'package:notemarket/services/package_manager/package_manager.dart';
+import 'package:notemarket/theme.dart';
+import 'package:notemarket/utils/extensions.dart';
 
 /// "Update All" button row.
 /// Progress and "All done" states are handled by sticky banners in _UpdatesListBody.
