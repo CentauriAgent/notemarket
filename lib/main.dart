@@ -10,6 +10,7 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:purplebase/purplebase.dart';
 import 'package:amber_signer/amber_signer.dart';
+import 'package:notemarket/models/app_review.dart';
 import 'package:notemarket/services/app_restart_service.dart';
 import 'package:notemarket/services/background_update_service.dart';
 import 'package:notemarket/services/notification_service.dart';
@@ -27,6 +28,13 @@ import 'package:notemarket/widgets/breathing_logo.dart';
 late final ProviderContainer _providerContainer;
 
 void main() {
+  // Register custom model types before storage initialization
+  Model.register<AppReview>(
+    kind: 1985,
+    constructor: AppReview.fromMap,
+    partialConstructor: PartialAppReview.fromMap,
+  );
+
   // Create provider container with overrides
   _providerContainer = ProviderContainer(
     overrides: [

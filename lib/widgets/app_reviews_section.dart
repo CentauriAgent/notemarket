@@ -1,10 +1,10 @@
-import 'package:async_button_builder/async_button_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:models/models.dart';
-import 'package:notemarket/providers/ratings_provider.dart';
+import 'package:notemarket/models/app_review.dart';
+import 'package:notemarket/providers/reviews_provider.dart';
 import 'package:notemarket/services/notification_service.dart';
 import 'package:notemarket/utils/extensions.dart';
 import 'package:notemarket/widgets/auth_widgets.dart';
@@ -12,7 +12,7 @@ import 'package:notemarket/widgets/common/profile_avatar.dart';
 import 'package:notemarket/widgets/common/profile_name_widget.dart';
 import 'package:notemarket/widgets/star_rating_widget.dart';
 
-/// Full ratings & reviews section for the app detail screen.
+/// Unified ratings & reviews section using NIP-32 (kind 1985).
 class AppReviewsSection extends HookConsumerWidget {
   const AppReviewsSection({super.key, required this.app});
 
@@ -20,24 +20,25 @@ class AppReviewsSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Fetch all kind 1111 comments tagged with this app
-    final commentsState = ref.watch(
-      query<Comment>(
+    // Fetch all kind 1985 reviews tagged with this app via `a` tag
+    final reviewsState = ref.watch(
+      query<AppReview>(
         tags: {
-          '#A': {app.id},
+          '#a': {app.id},
+          '#L': {'review/app'},
         },
-        source: LocalAndRemoteSource(stream: true, relays: 'social'),
-        subscriptionPrefix: 'app-ratings',
+        source: const LocalAndRemoteSource(stream: true, relays: 'social'),
+        subscriptionPrefix: 'app-reviews',
       ),
     );
 
-    final List<Comment> allComments = switch (commentsState) {
+    final List<AppReview> allReviews = switch (reviewsState) {
       StorageData(:final models) => models,
       _ => [],
     };
 
-    // Compute aggregate from comments that have rating tags
-    final aggregate = computeAggregate(allComments);
+    // Compute aggregate
+    final aggregate = computeReviewAggregate(allReviews);
 
     // Get following pubkeys for "from follows" filter
     final signedInPubkey = ref.watch(Signer.activePubkeyProvider);
@@ -54,16 +55,13 @@ class AppReviewsSection extends HookConsumerWidget {
         : null;
     final followingPubkeys =
         contactListState?.models.firstOrNull?.followingPubkeys;
-    final followsAggregate = filterByFollows(aggregate, followingPubkeys);
+    final followsAggregate = aggregate.filteredByFollows(followingPubkeys);
 
-    // Find current user's existing rating
-    final currentUserRating = signedInPubkey != null
-        ? aggregate.ratingComments
-            .where((c) => c.event.pubkey == signedInPubkey)
+    // Find current user's existing review
+    final currentUserReview = signedInPubkey != null
+        ? aggregate.reviews
+            .where((r) => r.reviewerPubkey == signedInPubkey)
             .firstOrNull
-        : null;
-    final existingStars = currentUserRating != null
-        ? extractRating(currentUserRating)
         : null;
 
     // Tab state: 0 = All, 1 = From Follows
@@ -81,15 +79,17 @@ class AppReviewsSection extends HookConsumerWidget {
               style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 16),
 
-          // Rating input
-          _RatingInputSection(
+          // Write a review / edit existing
+          _ReviewInputSection(
             app: app,
-            existingStars: existingStars,
+            existingReview: currentUserReview,
           ),
           const SizedBox(height: 16),
 
           // Tab selector (only show if signed in with follows)
-          if (signedInPubkey != null && followingPubkeys != null && followingPubkeys.isNotEmpty)
+          if (signedInPubkey != null &&
+              followingPubkeys != null &&
+              followingPubkeys.isNotEmpty)
             _TabSelector(
               selected: selectedTab.value,
               onChanged: (v) => selectedTab.value = v,
@@ -103,16 +103,16 @@ class AppReviewsSection extends HookConsumerWidget {
             _AggregateDisplay(aggregate: activeAggregate),
           ],
 
-          // Recent ratings list
-          if (activeAggregate.ratingComments.isNotEmpty) ...[
+          // Review list
+          if (activeAggregate.reviews.isNotEmpty) ...[
             const SizedBox(height: 20),
-            Text('Recent Ratings',
+            Text('Reviews',
                 style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
-            ...activeAggregate.ratingComments.take(20).map(
-                  (comment) => Padding(
+            ...activeAggregate.reviews.take(20).map(
+                  (review) => Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: _RatingCard(comment: comment),
+                    child: _ReviewCard(review: review),
                   ),
                 ),
           ],
@@ -138,7 +138,7 @@ class AppReviewsSection extends HookConsumerWidget {
                           .withValues(alpha: 0.3)),
                   const SizedBox(height: 8),
                   Text(
-                    'No ratings yet — be the first!',
+                    'No reviews yet — be the first!',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: const Color(0xFF8B5CF6),
                           fontWeight: FontWeight.w500,
@@ -154,35 +154,97 @@ class AppReviewsSection extends HookConsumerWidget {
   }
 }
 
-// ─── Rating Input ───────────────────────────────────────────────────────────
+// ─── Review Input Section ───────────────────────────────────────────────────
 
-class _RatingInputSection extends HookConsumerWidget {
-  const _RatingInputSection({
+class _ReviewInputSection extends HookConsumerWidget {
+  const _ReviewInputSection({
     required this.app,
-    required this.existingStars,
+    required this.existingReview,
   });
 
   final App app;
-  final int? existingStars;
+  final AppReview? existingReview;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSignedIn = ref.watch(Signer.activePubkeyProvider) != null;
-    final selectedRating = useState(existingStars ?? 0);
+    final selectedRating = useState(existingReview?.score ?? 0);
+    final reviewController =
+        useTextEditingController(text: existingReview?.reviewContent ?? '');
+    final isEditing = useState(existingReview == null);
     final isPublishing = useState(false);
 
-    // Sync with prop when it changes (e.g. after publishing)
+    // Sync with prop when it changes
     useEffect(() {
-      if (existingStars != null) selectedRating.value = existingStars!;
+      if (existingReview != null) {
+        selectedRating.value = existingReview!.score ?? 0;
+        reviewController.text = existingReview!.reviewContent;
+        isEditing.value = false;
+      }
       return null;
-    }, [existingStars]);
+    }, [existingReview]);
 
     if (!isSignedIn) {
       return const SignInPrompt(
-        message: 'Sign in to rate this app and help others discover great apps.',
+        message:
+            'Sign in to review this app and help others discover great apps.',
       );
     }
 
+    // Show existing review with edit button
+    if (existingReview != null && !isEditing.value) {
+      return Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Theme.of(context)
+              .colorScheme
+              .surfaceContainerHighest
+              .withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Your review',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                const Spacer(),
+                TextButton.icon(
+                  onPressed: () => isEditing.value = true,
+                  icon: const Icon(Icons.edit, size: 16),
+                  label: const Text('Edit'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: const Color(0xFF8B5CF6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            StarRatingDisplay(
+                average: (existingReview!.score ?? 0).toDouble(), size: 20),
+            if (existingReview!.hasText) ...[
+              const SizedBox(height: 8),
+              Text(
+                existingReview!.reviewContent,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+          ],
+        ),
+      );
+    }
+
+    // Review input form
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -195,53 +257,133 @@ class _RatingInputSection extends HookConsumerWidget {
           color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
         ),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  existingStars != null ? 'Your rating' : 'Rate this app',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+          Text(
+            existingReview != null ? 'Edit your review' : 'Rate this app',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
-                const SizedBox(height: 6),
-                StarRatingWidget(
-                  rating: selectedRating.value,
-                  size: 32,
-                  onChanged: isPublishing.value
-                      ? null
-                      : (value) async {
-                          selectedRating.value = value;
-                          isPublishing.value = true;
-                          try {
-                            await _publishRating(ref, value, context);
-                          } finally {
-                            if (context.mounted) {
-                              isPublishing.value = false;
-                            }
-                          }
-                        },
+          ),
+          const SizedBox(height: 8),
+
+          // Star selector
+          StarRatingWidget(
+            rating: selectedRating.value,
+            size: 36,
+            onChanged: isPublishing.value
+                ? null
+                : (value) => selectedRating.value = value,
+          ),
+          const SizedBox(height: 12),
+
+          // Review text field
+          TextField(
+            controller: reviewController,
+            maxLines: 3,
+            minLines: 1,
+            decoration: InputDecoration(
+              hintText: 'Share your experience... (optional)',
+              hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.4),
+                  ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .outline
+                      .withValues(alpha: 0.3),
                 ),
-              ],
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .outline
+                      .withValues(alpha: 0.3),
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(
+                  color: Color(0xFF8B5CF6),
+                ),
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             ),
           ),
-          if (isPublishing.value)
-            const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
+          const SizedBox(height: 12),
+
+          // Submit / Cancel buttons
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (existingReview != null)
+                TextButton(
+                  onPressed: () {
+                    isEditing.value = false;
+                    selectedRating.value = existingReview!.score ?? 0;
+                    reviewController.text = existingReview!.reviewContent;
+                  },
+                  child: const Text('Cancel'),
+                ),
+              const SizedBox(width: 8),
+              FilledButton(
+                onPressed: selectedRating.value == 0 || isPublishing.value
+                    ? null
+                    : () async {
+                        isPublishing.value = true;
+                        try {
+                          await _publishReview(
+                            ref,
+                            selectedRating.value,
+                            reviewController.text.trim(),
+                            context,
+                          );
+                          if (context.mounted) {
+                            isEditing.value = false;
+                          }
+                        } finally {
+                          if (context.mounted) {
+                            isPublishing.value = false;
+                          }
+                        }
+                      },
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF8B5CF6),
+                ),
+                child: isPublishing.value
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : Text(existingReview != null
+                        ? 'Update Review'
+                        : 'Submit Review'),
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  Future<void> _publishRating(
+  Future<void> _publishReview(
     WidgetRef ref,
     int stars,
+    String text,
     BuildContext context,
   ) async {
     try {
@@ -249,32 +391,28 @@ class _RatingInputSection extends HookConsumerWidget {
       if (signer == null) {
         if (context.mounted) {
           context.showError('Sign in required',
-              description: 'You need to sign in to rate apps.');
+              description: 'You need to sign in to review apps.');
         }
         return;
       }
 
-      // Build a PartialComment with rating tags
-      final comment = PartialComment(
-        content: '$stars/5 stars',
-        rootModel: app,
+      final review = PartialAppReview(
+        content: text,
+        score: stars,
+        appAddress: app.id,
       );
 
-      // Add rating-specific tags
-      comment.event.tags.add(['rating', '$stars']);
-      comment.event.tags.add(['L', 'app-rating']);
-      comment.event.tags.add(['l', '$stars', 'app-rating']);
-
-      final signedComment = await comment.signWith(signer);
-      await signedComment.save();
-      await signedComment.publish(source: RemoteSource(relays: 'social'));
+      final signedReview = await review.signWith(signer);
+      await signedReview.save();
+      await signedReview.publish(source: RemoteSource(relays: 'social'));
 
       if (context.mounted) {
-        context.showInfo('Rated $stars/5 ⭐');
+        context.showInfo(
+            text.isNotEmpty ? 'Review published ⭐' : 'Rated $stars/5 ⭐');
       }
     } catch (e) {
       if (context.mounted) {
-        context.showError('Failed to publish rating', technicalDetails: '$e');
+        context.showError('Failed to publish review', technicalDetails: '$e');
       }
     }
   }
@@ -358,7 +496,7 @@ class _TabChip extends StatelessWidget {
 class _AggregateDisplay extends StatelessWidget {
   const _AggregateDisplay({required this.aggregate});
 
-  final RatingAggregate aggregate;
+  final ReviewAggregate aggregate;
 
   @override
   Widget build(BuildContext context) {
@@ -444,21 +582,21 @@ class _AggregateDisplay extends StatelessWidget {
   }
 }
 
-// ─── Individual Rating Card ─────────────────────────────────────────────────
+// ─── Individual Review Card ─────────────────────────────────────────────────
 
-class _RatingCard extends HookConsumerWidget {
-  const _RatingCard({required this.comment});
+class _ReviewCard extends HookConsumerWidget {
+  const _ReviewCard({required this.review});
 
-  final Comment comment;
+  final AppReview review;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final stars = extractRating(comment) ?? 0;
+    final stars = review.score ?? 0;
 
     // Query author profile
     final authorState = ref.watch(
       query<Profile>(
-        authors: {comment.event.pubkey},
+        authors: {review.reviewerPubkey},
         source: const LocalAndRemoteSource(
           relays: {'social', 'vertex'},
           stream: false,
@@ -468,10 +606,6 @@ class _RatingCard extends HookConsumerWidget {
     );
     final author = authorState.models.firstOrNull;
     final isLoading = authorState is StorageLoading && author == null;
-
-    // Check if content is just "N/5 stars" (auto-generated) or has real text
-    final hasText = comment.content.isNotEmpty &&
-        !RegExp(r'^\d/5 stars$').hasMatch(comment.content.trim());
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -498,7 +632,7 @@ class _RatingCard extends HookConsumerWidget {
                   children: [
                     Expanded(
                       child: ProfileNameWidget(
-                        pubkey: comment.event.pubkey,
+                        pubkey: review.reviewerPubkey,
                         profile: author,
                         isLoading: isLoading,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -508,7 +642,7 @@ class _RatingCard extends HookConsumerWidget {
                       ),
                     ),
                     Text(
-                      DateFormat('MMM d, y').format(comment.createdAt),
+                      DateFormat('MMM d, y').format(review.createdAt),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Colors.grey[600],
                             fontSize: 10,
@@ -518,10 +652,10 @@ class _RatingCard extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 StarRatingDisplay(average: stars.toDouble(), size: 14),
-                if (hasText) ...[
+                if (review.hasText) ...[
                   const SizedBox(height: 4),
                   Text(
-                    comment.content,
+                    review.reviewContent,
                     style: Theme.of(context).textTheme.bodyMedium,
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,

@@ -6,7 +6,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:notemarket/providers/ratings_provider.dart';
+import 'package:notemarket/models/app_review.dart';
+import 'package:notemarket/providers/reviews_provider.dart';
 import 'package:notemarket/utils/extensions.dart';
 import 'package:notemarket/utils/url_utils.dart';
 import 'package:notemarket/services/package_manager/package_manager.dart';
@@ -534,21 +535,22 @@ class _AppCardRating extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final commentsState = ref.watch(
-      query<Comment>(
+    final reviewsState = ref.watch(
+      query<AppReview>(
         tags: {
-          '#A': {app.id},
+          '#a': {app.id},
+          '#L': {'review/app'},
         },
         source: const LocalAndRemoteSource(
           relays: 'social',
           cachedFor: Duration(minutes: 10),
         ),
-        subscriptionPrefix: 'card-ratings-${app.identifier}',
+        subscriptionPrefix: 'card-reviews-${app.identifier}',
       ),
     );
 
-    final comments = commentsState.models;
-    final aggregate = computeAggregate(comments);
+    final reviews = reviewsState.models;
+    final aggregate = computeReviewAggregate(reviews);
 
     if (aggregate.totalCount < 3) return const SizedBox.shrink();
 

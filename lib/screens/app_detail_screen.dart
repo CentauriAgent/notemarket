@@ -19,7 +19,6 @@ import 'package:notemarket/widgets/app_header.dart';
 import 'package:notemarket/widgets/app_info_table.dart';
 import 'package:notemarket/widgets/author_container.dart';
 import 'package:notemarket/widgets/app_reviews_section.dart';
-import 'package:notemarket/widgets/comments_section.dart';
 import 'package:notemarket/widgets/publisher_profile_section.dart';
 import 'package:notemarket/widgets/download_text_container.dart';
 import 'package:notemarket/widgets/expandable_markdown.dart';
@@ -421,10 +420,8 @@ class _AppDetailContent extends HookConsumerWidget {
                       profile: author,
                     ),
 
-                  // App reviews section
+                  // Unified NIP-32 reviews (kind 1985)
                   AppReviewsSection(app: app),
-
-                  CommentsSection(app: app, fileMetadata: latestMetadata),
 
                   // Debug section
                   if (showDebugSections)

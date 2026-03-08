@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:purplebase/purplebase.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:notemarket/models/app_review.dart';
 import 'package:notemarket/router.dart';
 import 'package:notemarket/services/package_manager/background_package_manager.dart';
 import 'package:notemarket/services/package_manager/dummy_package_manager.dart';
@@ -148,6 +149,13 @@ Future<bool> _checkForUpdatesInBackground(Set<String>? appCatalogRelays) async {
   try {
     // Use provided relays or fall back to default
     final relays = appCatalogRelays ?? {'wss://relay.zapstore.dev'};
+
+    // Register custom model types
+    Model.register<AppReview>(
+      kind: 1985,
+      constructor: AppReview.fromMap,
+      partialConstructor: PartialAppReview.fromMap,
+    );
 
     // Create a fresh provider container for background work
     final container = ProviderContainer(
